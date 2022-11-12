@@ -39,8 +39,8 @@ def update_book(request, pk):
     elif request.method == 'POST':
         form = GuestForm(data=request.POST)
         if form.is_valid():
-            guestbooks.name = form.cleaned_data.get('author')
-            guestbooks.email = form.cleaned_data.get('gmail')
+            guestbooks.name = form.cleaned_data.get('name')
+            guestbooks.email = form.cleaned_data.get('email')
             guestbooks.description = form.cleaned_data.get('description')
             guestbooks.save()
             return redirect('index')
