@@ -11,7 +11,8 @@
     {% for guestbook in guestbooks %}
         <div class="col">
         <div class="card">
-  <h5 class="card-header">Имя:{{ guestbook.name }}</h5>
+  <h5 class="card-header">Имя:{{ guestbook.name }} <a href="{% url "book_update" guestbook.pk %}"><i class="bi bi-pen"></i></a><a
+          href="{% url "book_delete" guestbook.pk %}"><i class="bi bi-file-earmark-x"></i></a></h5>
   <div class="card-body">
     <h5 class="card-title">Почта:{{ guestbook.email }}</h5>
     <p class="card-text">Текст:{{ guestbook.description }}</p>

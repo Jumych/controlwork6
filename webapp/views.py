@@ -26,16 +26,32 @@ def add_book(request):
         else:
             return render(request, 'add_book.html', {'form', form})
 
-def update_book(request.pk=pk):
-    guest = get_object_or_404(Task, pk=pk)
-    if request.method == "GET":
-        return render(request, 'task_update.html', {'task': task, 'statuses': STATUS_CHOICES})
-    elif request.method == "POST":
-        task.title = request.POST.get('title')
-        task.status = request.POST.get('status')
-        task.deadline = request.POST.get('deadline')
-        task.description = request.POST.get('description')
-        if not task.deadline:
-            task.deadline = None
-        task.save()
-        return redirect('index', pk=guestbooks.pk)
+
+def update_book(request, pk):
+    guestbooks = get_object_or_404(Book_Guest, pk=pk)
+    if request.method == 'GET':
+        form = GuestForm(initial={
+            'name': guestbooks.name,
+            'email': guestbooks.email,
+            'description': guestbooks.description
+        })
+        return render(request, "update.html", {'form': form})
+    elif request.method == 'POST':
+        form = GuestForm(data=request.POST)
+        if form.is_valid():
+            guestbooks.name = form.cleaned_data.get('author')
+            guestbooks.email = form.cleaned_data.get('gmail')
+            guestbooks.description = form.cleaned_data.get('description')
+            guestbooks.save()
+            return redirect('index')
+        else:
+            return render(request, "update.html", {'form': form})
+
+
+def book_delete(request, pk):
+    guest = get_object_or_404(Book_Guest, pk=pk)
+    if request.method == 'GET':
+        return render(request, 'delete.html', context={'guest': guest})
+    elif request.method == 'POST':
+        guest.delete()
+        return redirect('index')
